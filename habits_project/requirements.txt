@@ -1,0 +1,4 @@
+telebot
+django
+psycopg2
+django-celery-beat
