@@ -2,3 +2,7 @@ telebot
 django
 psycopg2
 django-celery-beat
+drf_yasg
+rest_framework
+corsheaders
+python-dotenv

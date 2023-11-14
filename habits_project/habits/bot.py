@@ -1,11 +1,13 @@
 from datetime import datetime
-
 import psycopg2
 import telebot
+import os
+from dotenv import load_dotenv
 
-bot = telebot.TeleBot('6326493689:AAHhVJeDPe2bTpRMgkuYKMWYdLwHg-Mji2A')
+load_dotenv()
+Bot_key = os.getenv("BOT_KEY")
+bot = telebot.TeleBot(Bot_key)
 
-# Состояния бота
 ADD_HABIT_PLACE, ADD_HABIT_TIME, ADD_HABIT_PLEASANT, ADD_HABIT_FREQUENCY = range(4)
 
 
