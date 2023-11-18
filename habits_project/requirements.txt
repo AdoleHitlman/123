@@ -3,6 +3,6 @@ django
 psycopg2
 django-celery-beat
 drf_yasg
-rest_framework
+djangorestframework
 corsheaders
 python-dotenv
