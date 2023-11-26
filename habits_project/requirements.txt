@@ -1,6 +1,6 @@
 telebot
 django
-psycopg2
+psycopg2-binary
 django-celery-beat
 drf_yasg
 djangorestframework
