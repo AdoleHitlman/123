@@ -1,9 +1,11 @@
+import os
 import telebot
 from celery import shared_task
 
 from habits.models import Habit
 
-bot = telebot.TeleBot('6326493689:AAHhVJeDPe2bTpRMgkuYKMWYdLwHg-Mji2A')
+Bot_key = os.getenv("BOT_KEY")
+bot = telebot.TeleBot(Bot_key)
 
 
 @shared_task
