@@ -1,40 +1,49 @@
-from django.core.exceptions import ValidationError
-
-from habits.models import Habit
+from rest_framework.serializers import ValidationError
 
 
-def validate_related_habit(value):
-    habit = Habit.objects.get(pk=value)
-    if habit.is_pleasant:
-        if habit.reward is not None:
-            raise ValidationError("Pleasant habits cannot have a reward.")
-    else:
-        if habit.related_habit is not None:
-            raise ValidationError("Unpleasant habits cannot have a related habit.")
+class Related_or_Award_HabitValidator:
+    """Исключить одновременный выбор связанной привычки и указания вознаграждения"""
+    def __call__(self, attrs):
+        related_habit = attrs.get('related_habit')
+        award = attrs.get('award')
 
-def validate_execution_time(value):
-    if value > 120:
-        raise ValidationError("Execution time should not exceed 120 seconds.")
-
-def validate_related_habit(value):
-    related_habit = Habit.objects.get(pk=value)
-    if not related_habit.is_pleasant:
-        raise ValidationError("Related habit should be a pleasant habit.")
+        if related_habit and award:
+            raise ValidationError('Вы должны указать либо связанную привычку, либо признак приятной привычки, '
+                                  'или указать принак приятной привычки')
 
 
-def validate_pleasant_habit(value):
-    habit = Habit.objects.get(pk=value)
-    if habit.is_pleasant:
-        if habit.reward is not None:
-            raise ValidationError("Pleasant habits cannot have a reward.")
-        if habit.related_habit is not None:
-            raise ValidationError("Pleasant habits cannot have a related habit.")
+class Time_limit_seconds_HabitValidator:
+    """Время выполнения должно быть не больше 120 секунд."""
+    def __call__(self, attrs):
+        time_limit_seconds = attrs.get('time_limit_seconds')
+        if time_limit_seconds > 120:
+            raise ValidationError('Время на выполнение не более 2х минут')
 
-from datetime import timedelta, date
 
-def validate_habit_frequency(value):
-    habit = Habit.objects.get(pk=value)
-    last_execution_date = habit.last_execution_date
-    current_date = date.today()
-    if last_execution_date is not None and (current_date - last_execution_date) < timedelta(days=7):
-        raise ValidationError("Habit should not be executed less frequently than once every 7 days.")
+class Related_is_pleasant_habit_HabitValidator:
+    """В связанные привычки могут попадать только привычки с признаком приятной привычки"""
+    def __call__(self, attrs):
+        related_habit = attrs.get('related_habit')
+        if related_habit and not related_habit.is_pleasant_habit:
+            raise ValidationError('В связанные привычки могут попадать только привычки с признаком приятной привычки')
+        return attrs
+
+
+class Pleasant_HabitValidator:
+    """У приятной привычки не может быть вознаграждения или связанной привычки."""
+    def __call__(self, attrs):
+        is_pleasant_habit = attrs.get('is_pleasant_habit')
+        related_habit = attrs.get('related_habit')
+        award = attrs.get('award')
+        if is_pleasant_habit:
+            if related_habit or award:
+                raise ValidationError(
+                    'У приятной привычки не может быть вознаграждения или связанной привычки.')
+
+
+class Time_period_days_HabitValidator:
+    """Нельзя выполнять привычку реже, чем 1 раз в 7 дней"""
+    def __call__(self, attrs):
+        time_period_days = attrs.get('time_period_days')
+        if time_period_days > 7:
+            raise ValidationError('Нельзя выполнять привычку реже, чем 1 раз в 7 дней')

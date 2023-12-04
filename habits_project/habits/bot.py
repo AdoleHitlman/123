@@ -2,9 +2,7 @@ from datetime import datetime
 import psycopg2
 import telebot
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
 Bot_key = os.getenv("BOT_KEY")
 bot = telebot.TeleBot(Bot_key)
 
