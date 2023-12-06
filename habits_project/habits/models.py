@@ -5,6 +5,7 @@ class Habit(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     place = models.CharField(max_length=100)
     time = models.DateTimeField()
+    time_period_days = models.IntegerField()
     action = models.CharField(max_length=100)
     is_pleasant = models.BooleanField()
     related_habit = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)

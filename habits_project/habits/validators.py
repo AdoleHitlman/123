@@ -15,8 +15,8 @@ class Related_or_Award_HabitValidator:
 class Time_limit_seconds_HabitValidator:
     """Время выполнения должно быть не больше 120 секунд."""
     def __call__(self, attrs):
-        time_limit_seconds = attrs.get('time_limit_seconds')
-        if time_limit_seconds > 120:
+        time_to_complete = attrs.get('time_to_complete')
+        if time_to_complete > 120:
             raise ValidationError('Время на выполнение не более 2х минут')
 
 
@@ -32,10 +32,10 @@ class Related_is_pleasant_habit_HabitValidator:
 class Pleasant_HabitValidator:
     """У приятной привычки не может быть вознаграждения или связанной привычки."""
     def __call__(self, attrs):
-        is_pleasant_habit = attrs.get('is_pleasant_habit')
+        is_pleasant = attrs.get('is_pleasant')
         related_habit = attrs.get('related_habit')
         award = attrs.get('award')
-        if is_pleasant_habit:
+        if is_pleasant:
             if related_habit or award:
                 raise ValidationError(
                     'У приятной привычки не может быть вознаграждения или связанной привычки.')

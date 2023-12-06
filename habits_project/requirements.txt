@@ -1,6 +1,7 @@
 amqp==5.2.0
 asgiref==3.7.2
 billiard==4.2.0
+telebot
 blinker==1.7.0
 celery==5.3.4
 certifi==2023.7.22

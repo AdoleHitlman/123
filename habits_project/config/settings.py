@@ -18,12 +18,10 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv()
-env_path = Path('.') / '.env'
+env_path = Path('.') / '.env_sample'
 load_dotenv(dotenv_path=env_path)
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-load_dotenv(dotenv_path=BASE_DIR / '.env')
-
+load_dotenv(dotenv_path=BASE_DIR / '.env_sample')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
