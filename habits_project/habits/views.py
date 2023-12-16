@@ -61,17 +61,17 @@ class HabitViewSet(viewsets.ModelViewSet):
 
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)
-        instance = self.getobject()
+        instance = self.get_object()
         serializer = HabitSerializer(instance, data=request.data, partial=partial)
-        if serializer.isvalid():
+        if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, *args, **kwargs):
-        instance = self.getobject()
-        self.performdestroy(instance)
+        instance = self.get_object()
+        self.perform_destroy(instance)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
